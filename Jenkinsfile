@@ -16,7 +16,7 @@ pipeline {
                 script {
                     app = docker.build("procstar/train-schedule")
                     app.inside {
-                        sh 'echo $(curl localhost:65001)'
+                        sh 'echo $(curl localhost:6501)'
                     }
                 }
             }
@@ -50,7 +50,7 @@ pipeline {
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
-                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name train-schedule -p 65001:65001 -d procstar/train-schedule:${env.BUILD_NUMBER}\""
+                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name train-schedule -p 6501:6501 -d procstar/train-schedule:${env.BUILD_NUMBER}\""
                     }
                 }
             }
